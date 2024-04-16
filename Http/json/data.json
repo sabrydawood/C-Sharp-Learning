@@ -1,0 +1,13 @@
+{
+  "APP_NAME": "MyApp",
+  "APP_DESCRIPTION": "MyApp description",
+  "APP_VERSION": "1.0.0",
+  "APP_AUTHOR": "MyApp author",
+  "APP_AUTHOR_EMAIL": "MyApp author email",
+  "APP_URL": "http://localhost",
+  "APP_PORTS": [
+    8080,
+    5000,
+    3000
+  ]
+}
