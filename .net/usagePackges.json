@@ -1,0 +1,5 @@
+{
+    "sqlite" : "Microsoft.EntityFrameworkCore.Sqlite",
+    "Design-Db" : "Microsoft.EntityFrameworkCore.Design",
+    "validation" : "MinimalApis.Extensions"
+}

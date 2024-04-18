@@ -1,0 +1,37 @@
+@APP_URL = http://localhost:5182
+
+GET {{APP_URL}}/games
+Accept: application/json
+
+###
+GET {{APP_URL}}/games/3
+Accept: application/json
+
+###
+
+POST {{APP_URL}}/games
+Content-Type: application/json
+
+{
+    "Name" : "Game 4",
+    "Price" : 14.12,
+    "GenreId" : 1,
+    "Date": "2023-11-18" 
+}
+###
+
+PUT {{APP_URL}}/games/3
+Content-Type: application/json
+
+{
+    "Name" : "Game 3 updates",
+    "Price" : 14.12,
+    "GenreId" : 1,
+    "Date": "2023-11-18" 
+}
+###
+
+DELETE  {{APP_URL}}/games/6
+Accept: application/json
+
+###

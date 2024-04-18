@@ -1,0 +1,7 @@
+{
+    "Migrate" : "dotnet ef migrations add",
+    "Migrate-Ex" : "dotnet ef migrations add InitialCreate --output-dir Database/Migrations",
+    "Seed" : "dotnet ef database update",
+    "Seed-Add-Ex" : "dotnet ef migrations add SeedGeneres --output-dir Database/Migrations",
+    "Remove" : "ef migrations remove"
+}
