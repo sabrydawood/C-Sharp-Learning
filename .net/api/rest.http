@@ -4,7 +4,7 @@ GET {{APP_URL}}/games
 Accept: application/json
 
 ###
-GET {{APP_URL}}/games/3
+GET {{APP_URL}}/games/5
 Accept: application/json
 
 ###

@@ -7,29 +7,6 @@ namespace api.Routes;
 // g:/C #/Learn/.net/api/Routes/Game.cs
 public static class GameRoutes
 {
-    private static readonly List<GameRecord> games = [
-       new(
-        1,
-        "Games 1",
-        11.55,
-        "Genre 1",
-        new DateOnly(2022, 3, 22)
-    ),
-    new (
-        2,
-        "GameRecord 2",
-        12.55,
-        "Genre 2",
-        new DateOnly(2023, 1, 23)
-    ),
-    new (
-        3,
-        "GameRecord 3",
-        13.55,
-        "Genre 3",
-        new DateOnly(2024, 4, 24)
-        )
-   ];
 
     public static RouteGroupBuilder MapGameRoutes(this WebApplication app)
     {
@@ -50,7 +27,19 @@ public static class GameRoutes
         }).WithName("GetGames");
         group.MapGet("/{id}", (int id, GameContext db) =>
         {
-            var game = db.Games.Find(id);
+            var game = db.Games.
+                Include(g => g.Genre)
+                .Select(g => new
+                {
+                    Id = g.Id,
+                    Name = g.Name,
+                    GenreId = g.GenreId,
+                    Genre = g.Genre!.Name,
+                    Price = g.Price,
+                    Date = g.Date
+                })
+                .AsNoTracking()
+                .FirstOrDefault(g => g.Id == id);
             if (game is null)
             {
                 return Results.Json(new
@@ -60,21 +49,12 @@ public static class GameRoutes
                     StatusCode = 404
                 }, statusCode: 404);
             }
-            var response = new
-            {
-                Id = game.Id,
-                Name = game.Name,
-                GenreId = game.GenreId,
-                Genre = game.Genre!.Name,
-                Price = game.Price,
-                Date = game.Date
-            };
             return Results.Json(new
             {
                 Message = "Game found",
                 Error = false,
                 StatusCode = 200,
-                Data = response
+                Data = game
             });
         }).WithName("GetGameById");
         group.MapPost("/", (CreateGame newGame, GameContext db) =>
@@ -153,7 +133,8 @@ public static class GameRoutes
                 Message = "Game deleted",
                 Error = false,
                 StatusCode = 200,
-                Data = new {
+                Data = new
+                {
                     Id = game.Id
                 }
             });
