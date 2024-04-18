@@ -1,5 +1,7 @@
 @APP_URL = http://localhost:5182
 
+GET {{APP_URL}}
+###
 GET {{APP_URL}}/games
 Accept: application/json
 

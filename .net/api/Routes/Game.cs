@@ -12,11 +12,19 @@ public static class GameRoutes
     {
         var group = app.MapGroup("games")
                         .WithParameterValidation();
+
         group.MapGet("/", (GameContext db) =>
         {
             var games = db.Games
                         .Include(g => g.Genre)
-                        .ToList();
+                        .Select(g => new {
+                            Id = g.Id,
+                            Name = g.Name,
+                            GenreId = g.GenreId,
+                            Genre = g.Genre!.Name,
+                            Price = g.Price,
+                            Date = g.Date
+                        }).AsNoTracking();
             return Results.Json(new
             {
                 Message = "Games found",
@@ -116,7 +124,7 @@ public static class GameRoutes
         }).WithName("UpdateGame");
         group.MapDelete("/{id}", (int id, GameContext db) =>
         {
-            var game = db.Games.Find(id);
+            var game = db.Games.Where(g => g.Id == id);
             if (game is null)
             {
                 return Results.Json(new
@@ -126,7 +134,7 @@ public static class GameRoutes
                     StatusCode = 404
                 }, statusCode: 404);
             }
-            db.Games.Remove(game);
+            game.ExecuteDelete();
             db.SaveChanges();
             return Results.Json(new
             {
